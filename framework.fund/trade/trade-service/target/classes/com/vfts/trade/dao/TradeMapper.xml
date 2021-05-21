@@ -1,0 +1,209 @@
+<?xmxgl version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vfts.trade.dao.ITradeMapper">
+    <resultMap
+            type="com.vfts.trade.entity.HoldingEntity"
+            id="HoldingMapping">
+        <result column="uuid" property="uuid" />
+        <result column="fundId" property="fundId" />
+        <result column="holdingShares" property="holdingShares" />
+        <result column="startHoldingDate" property="startHoldingDate" />
+        <result column="transactionPrice" property="transactionPrice" />
+        <collection property="yieldHistory" ofType="double">
+            <result column="yieldRecord"/>
+        </collection>
+        <collection property="yieldDate" ofType="Date">
+            <result column="date"/>
+        </collection>
+    </resultMap>
+
+    <!--listCurrentHoldingsByUuid-->
+    <select id="listCurrentHoldingsByUuid" parameterType="string" resultMap="HoldingMapping">
+        SELECT h.uuid,
+               h.fundId,
+               h.holdingShares,
+               h.startHoldingDate,
+               h.transactionPrice,
+               yh.yieldRecord,
+               yh.date
+        FROM HOLDING_ENTITY h
+        left outer join yieldHistory yH on h.fundID = yH.fundID and h.uuid = yh.uuid
+        where h.uuid = #{uuid,jdbcType=VARCHAR} and h.holdingShares >= 0
+    </select>
+
+    <!--listTradeHistory-->
+    <select id="listTradeHistory" resultType="com.vfts.trade.entity.TradeEntity" parameterType="String">
+        select uuid,orderId,fundId,tradeType,tradeShares,tradePrice,orderDate,tradeDate
+        from TRADE_ENTITY
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+
+    <!--getBalanceByUuid-->
+    <select id="getBalanceByUuid" parameterType="String" resultType="java.lang.Double">
+        SELECT accountBalance
+        FROM account_entity
+        WHERE uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+
+    <!--getAssetsByUuid-->
+    <select id="getAssetsByUuid" parameterType="String" resultType="java.lang.Double">
+        SELECT assets
+        FROM account_entity
+        WHERE uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+
+    <!--setYesterdayYield-->
+    <update id="setYesterdayYield">
+        UPDATE account_entity
+        SET yesterdayYield = #{newYesterdayYield,jdbcType=FLOAT}
+        WHERE `account_entity`.`uuid` = #{uuid}
+    </update>
+
+    <!--getYesterdayYieldByUuid-->
+    <select id="getYesterdayYieldByUuid" parameterType="String" resultType="java.lang.Double">
+        select yesterdayYield
+        from account_entity
+        WHERE `account_entity`.`uuid` = #{uuid}
+    </select>
+
+    <!--getHoldingYieldByUuid-->
+    <select id="getHoldingYieldByUuid" parameterType="String" resultType="java.lang.Double">
+        select holdingYield
+        from account_entity
+        WHERE `account_entity`.`uuid` = #{uuid}
+    </select>
+
+    <!--getTotalYieldByUuid-->
+    <select id="getTotalYieldByUuid" parameterType="String" resultType="java.lang.Double">
+        select totalYield
+        from account_entity
+        WHERE `account_entity`.`uuid` = #{uuid,jdbcType=VARCHAR}
+    </select>
+
+    <!--setHoldingYield-->
+    <update id="setHoldingYield">
+        UPDATE account_entity
+        SET holdingYield = #{newHoldingYield,jdbcType=FLOAT}
+        WHERE `account_entity`.`uuid` = #{uuid,jdbcType=VARCHAR}
+    </update>
+
+    <!--setTotalYield-->
+    <update id="setTotalYield">
+        UPDATE account_entity
+        SET totalYield = #{newTotalYield,jdbcType=FLOAT}
+        WHERE `account_entity`.`uuid` = #{uuid,jdbcType=VARCHAR}
+    </update>
+
+    <!--listSelfListedByUuid-->
+    <select id="listSelfListedByUuid" parameterType="String" resultType="java.lang.String">
+        select fundId
+        from selfListed
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+
+    <!--addToSelfListed-->
+    <insert id="addToSelfListed">
+        INSERT INTO selfListed (uuid, fundId)
+        values( #{uuid,jdbcType=VARCHAR}, #{fundId,jdbcType=VARCHAR} )
+    </insert>
+
+    <!--deleteFromSelfListed-->
+    <delete id="deleteFromSelfListed" parameterType="com.vfts.trade.entity.AccountEntity">
+        DELETE FROM selfListed
+        WHERE selfListed.uuid = #{uuid,jdbcType=VARCHAR} AND selfListed.fundId = #{fundId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--updateAccountBalance-->
+    <update id="updateAccountBalance">
+        UPDATE account_entity
+        SET accountBalance = #{newBalance,jdbcType=FLOAT}
+        WHERE `account_entity`.`uuid` = #{uuid,jdbcType=VARCHAR}
+    </update>
+
+    <!--addToCurrentHoldings-->
+    <insert id="addToCurrentHoldings" parameterType="com.vfts.trade.entity.HoldingEntity">
+        Insert into HOLDING_ENTITY
+            (uuid,fundId,holdingShares,startHoldingDate, transactionPrice)
+        VALUES(
+            #{uuid,jdbcType=VARCHAR},
+            #{fundId,jdbcType=VARCHAR},
+            #{holdingShares,jdbcType=FLOAT},
+            #{startHoldingDate,jdbcType=FLOAT},
+            #{transactionPrice, jdbcType=FLOAT}
+              )
+    </insert>
+
+    <!--deleteFromCurrentHoldings-->
+    <delete id="deleteFromCurrentHoldings">
+        DELETE FROM HOLDING_ENTITY
+        WHERE uuid = #{uuid,jdbcType=VARCHAR} AND fundId = #{fundId,jdbcType=VARCHAR}
+    </delete>
+
+    <!--updateOneHolding-->
+    <update id="updateOneHolding" parameterType="com.vfts.trade.entity.HoldingEntity">
+        update HOLDING_ENTITY set
+            holdingShares =  #{holdingShares,jdbcType=FLOAT},
+            startHoldingDate = #{startHoldingDate,jdbcType=TIMESTAMP},
+            transactionPrice = #{transactionPrice,jdbcType=FLOAT}
+            WHERE HOLDING_ENTITY.uuid = #{uuid,jdbcType=VARCHAR} and
+                  HOLDING_ENTITY.fundId = #{fundId,jdbcType=VARCHAR}
+    </update>
+
+    <!--getTradeByOrderId-->
+    <select id="getTradeByOrderId" resultType="com.vfts.trade.entity.TradeEntity" parameterType="String">
+        select uuid,orderId,fundId,tradeType,tradeShares,tradePrice,orderDate,tradeDate
+        from TRADE_ENTITY
+        where orderId = #{orderId,jdbcType=VARCHAR}
+    </select>
+
+    <!--createTrade-->
+    <insert id="createTrade" parameterType="com.vfts.trade.entity.TradeEntity">
+        INSERT INTO TRADE_ENTITY
+        (uuid,orderId,fundId,tradeType,tradeShares,tradePrice,orderDate,tradeDate)
+        values(
+            #{uuid,jdbcType=VARCHAR},
+            #{orderId,jdbcType=VARCHAR},
+            #{fundId,jdbcType=VARCHAR},
+            #{tradeType,jdbcType=INTEGER},
+            #{tradeShares,jdbcType=FLOAT},
+            #{tradePrice,jdbcType=FLOAT},
+            #{orderDate,jdbcType=TIMESTAMP},
+            #{tradeDate,jdbcType=TIMESTAMP}
+            )
+    </insert>
+
+    <!--setAssets-->
+    <insert id="setAssets">
+        update ACCOUNT_ENTITY a
+        set assets = #{newAssets,jdbcType=FLOAT}
+        where a.uuid = #{uuid,jdbcType=VARCHAR}
+    </insert>
+
+    <!--getStartingBalanceByUuid-->
+    <select id="getStartingBalanceByUuid" parameterType="string" resultType="java.lang.Double">
+        select startingBalance
+        from ACCOUNT_ENTITY a
+        where a.uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+
+    <!--checkIfInSelfListed-->
+    <select id="checkIfInSelfListed" resultType="int">
+        select count(*) from selfListed
+        where (uuid = #{uuid,jdbcType=VARCHAR} and fundId = #{fundId,jdbcType=VARCHAR})
+    </select>
+
+    <!--listAllProcessingOrders-->
+    <select id="listAllProcessingOrders" resultType="com.vfts.trade.entity.OrderEntity">
+        select uuid, orderId, fundId, ordertype, sellingShares, buyingAmount, orderDate, orderStatus
+        from ORDER_ENTITY
+        where orderStatus = 'processing'
+    </select>
+
+    <!--listProcessingSellingOrdersByFundId-->
+    <select id="listProcessingSellingOrdersByFundId" resultType="com.vfts.trade.entity.OrderEntity">
+        select uuid, orderId, fundId, ordertype, sellingShares, buyingAmount, orderDate, orderStatus
+        from ORDER_ENTITY
+        where orderStatus = 'processing' and fundId = #{fundId, jdbcType=VARCHAR} and ordertype = 1
+    </select>
+</mapper>

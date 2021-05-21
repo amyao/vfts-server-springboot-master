@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/admin.iml" filepath="$PROJECT_DIR$/admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/user-rest/framework.user.api.iml" filepath="$PROJECT_DIR$/user/user-rest/framework.user.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/user-api/framework.user.api (1).iml" filepath="$PROJECT_DIR$/user/user-api/framework.user.api (1).iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/user-service/framework.user.rest.iml" filepath="$PROJECT_DIR$/user/user-service/framework.user.rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mvn-base/parent/maven-parent.iml" filepath="$PROJECT_DIR$/mvn-base/parent/maven-parent.iml" />
+    </modules>
+  </component>
+</project>

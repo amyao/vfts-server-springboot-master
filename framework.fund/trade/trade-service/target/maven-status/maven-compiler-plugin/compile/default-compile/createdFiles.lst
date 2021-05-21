@@ -1,0 +1,6 @@
+com\vfts\trade\service\TradeService.class
+com\vfts\trade\service\OrderService.class
+com\vfts\trade\dao\IOrderMapper.class
+com\vfts\trade\dao\ITradeMapper.class
+com\vfts\trade\service\HttpClient.class
+com\vfts\trade\service\ScheduledTask.class

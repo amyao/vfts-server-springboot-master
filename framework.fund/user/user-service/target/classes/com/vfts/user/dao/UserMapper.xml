@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+<!DOCTYPE mapper SYSTEM "http://mybatis.org/dtd/mybatis-3-mapper.dtd" PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN">
+-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vfts.user.dao.IUserMapper">
+    <sql id="base_columns"> uuid,username,pwd,payPwd,questionIndex,answer </sql>
+
+    <!--getUserByUuid-->
+    <select id="getUserByUuid" resultType="com.vfts.user.entity.UserEntity" parameterType="string">
+        select
+            uuid, username, pwd, payPwd
+        from
+            `USER_ENTITY`
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+
+    <!--getUserByUsername-->
+    <select id="getUserByUsername" resultType="com.vfts.user.entity.UserEntity" parameterType="string">
+        select
+            <include refid="base_columns"/>
+        from
+            `USER_ENTITY`
+        where username = #{username,jdbcType=VARCHAR}
+    </select>
+
+    <!--listAllUsers-->
+    <select id="listAllUsers" resultType="com.vfts.user.entity.UserEntity">
+        select <include refid="base_columns"/> from `USER_ENTITY`
+        where 1
+    </select>
+
+    <!--createUser-->
+    <insert id="createUser" parameterType="com.vfts.user.entity.UserEntity">
+        INSERT INTO `USER_ENTITY`
+            (<include refid="base_columns"/>)
+        values
+            (#{uuid,jdbcType=VARCHAR},
+            #{username,jdbcType=VARCHAR},
+            #{pwd,jdbcType=VARCHAR},
+            #{payPwd,jdbcType=VARCHAR},
+             null,null)
+
+    </insert>
+
+    <!--createAccount-->
+    <insert id="createAccount" parameterType="string">
+        INSERT INTO ACCOUNT_ENTITY
+        (uuid,accountBalance,startingBalance,assets,yesterdayYield,holdingYield,totalYield)
+        values(#{uuid,jdbcType=VARCHAR},'10000','10000','10000','0','0','0')
+    </insert>
+
+    <!--updatePwd-->
+    <update id="updatePwd" parameterType="com.vfts.user.entity.UserEntity">
+        UPDATE `USER_ENTITY`
+        SET `pwd` = #{pwd,jdbcType=VARCHAR} WHERE
+            `USER_ENTITY`.`uuid` = #{uuid,jdbcType=VARCHAR}
+    </update>
+
+    <!--updatePayPwd-->
+    <update id="updatePayPwd" parameterType="com.vfts.user.entity.UserEntity">
+        UPDATE `USER_ENTITY`
+        SET `payPwd` = #{payPwd,jdbcType=VARCHAR} WHERE
+            `USER_ENTITY`.`uuid` = #{uuid,jdbcType=VARCHAR}
+    </update>
+
+    <!--updateSecurityQuestion-->
+    <update id="updateSecurityQuestion" parameterType="com.vfts.user.entity.QuestionEntity">
+        UPDATE `USER_ENTITY`
+        SET `questionIndex` = #{questionIndex,jdbcType=VARCHAR},
+            `answer` = #{answer,jdbcType=VARCHAR}
+        WHERE
+            `USER_ENTITY`.`uuid` = #{uuid,jdbcType=VARCHAR}
+    </update>
+
+    <!--checkPwd-->
+    <select id="checkPwd" resultType="int">
+        select COUNT(*) AS Result FROM `USER_ENTITY` u
+        WHERE u.username = #{username,jdbcType=VARCHAR} AND u.Pwd = #{pwd,jdbcType=VARCHAR}
+    </select>
+
+
+    <!--checkPayPwd-->
+    <select id="checkPayPwd" resultType="int">
+        select COUNT(*) AS Result FROM `USER_ENTITY` u
+        WHERE u.uuid = #{uuid,jdbcType=VARCHAR} AND u.payPwd = #{payPwd,jdbcType=VARCHAR}
+    </select>
+
+    <!--getSecurityQuestionByUsername-->
+    <select id="getSecurityQuestionByUsername" parameterType="string" resultType="com.vfts.user.entity.QuestionEntity">
+        select uuid,questionIndex,answer from `USER_ENTITY`
+        where username = #{username,jdbcType=VARCHAR}
+    </select>
+
+    <!--checkSecurityQuestion-->
+    <select id="checkSecurityQuestion" resultType="int">
+        select count(*) from `USER_ENTITY`
+        where uuid = #{uuid} AND answer = #{answer}
+    </select>
+</mapper>

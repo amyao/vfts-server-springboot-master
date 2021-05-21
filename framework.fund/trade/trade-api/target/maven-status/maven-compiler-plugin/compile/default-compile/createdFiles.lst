@@ -1,0 +1,6 @@
+com\vfts\trade\entity\TradeEntity.class
+com\vfts\trade\iface\ITradeService.class
+com\vfts\trade\entity\HoldingEntity.class
+com\vfts\trade\entity\AccountEntity.class
+com\vfts\trade\entity\OrderEntity.class
+com\vfts\trade\iface\IOrderService.class

@@ -1,0 +1,3 @@
+com\vfts\user\entity\QuestionEntity.class
+com\vfts\user\iface\IUserService.class
+com\vfts\user\entity\UserEntity.class

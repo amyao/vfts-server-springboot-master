@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/framework.fund/druid/druid.iml" filepath="$PROJECT_DIR$/framework.fund/druid/druid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/assembly/framework-assembly.iml" filepath="$PROJECT_DIR$/assembly/framework-assembly.iml" />
+      <module fileurl="file://$PROJECT_DIR$/druid/framework-druid.iml" filepath="$PROJECT_DIR$/druid/framework-druid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework-fund.iml" filepath="$PROJECT_DIR$/framework-fund.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trade/framework-trade-all.iml" filepath="$PROJECT_DIR$/trade/framework-trade-all.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trade/trade-api/framework-trade-api.iml" filepath="$PROJECT_DIR$/trade/trade-api/framework-trade-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trade/trade-rest/framework-trade-rest.iml" filepath="$PROJECT_DIR$/trade/trade-rest/framework-trade-rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/trade/trade-service/framework-trade-service.iml" filepath="$PROJECT_DIR$/trade/trade-service/framework-trade-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/framework-user-all.iml" filepath="$PROJECT_DIR$/user/framework-user-all.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/user-api/framework-user-api.iml" filepath="$PROJECT_DIR$/user/user-api/framework-user-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/user-rest/framework-user-rest.iml" filepath="$PROJECT_DIR$/user/user-rest/framework-user-rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/user/user-service/framework-user-service.iml" filepath="$PROJECT_DIR$/user/user-service/framework-user-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/framework.fund/assembly/framework.fund.iml" filepath="$PROJECT_DIR$/framework.fund/assembly/framework.fund.iml" />
+    </modules>
+  </component>
+</project>

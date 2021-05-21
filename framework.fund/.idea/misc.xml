@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/framework.fund/user/user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/framework.fund/user/pom.xml" />
+        <option value="$PROJECT_DIR$/framework.fund/pom.xml" />
+        <option value="$PROJECT_DIR$/framework.fund/trade/trade-api/pom.xml" />
+        <option value="$PROJECT_DIR$/framework.fund/trade/trade-rest/pom.xml" />
+        <option value="$PROJECT_DIR$/framework.fund/trade/trade-service/pom.xml" />
+        <option value="$PROJECT_DIR$/framework.fund/trade/pom.xml" />
+        <option value="$PROJECT_DIR$/framework.fund/assembly/pom.xml" />
+        <option value="$PROJECT_DIR$/framework.fund/druid/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/user/user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/druid/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" default="true" project-jdk-name="corretto-15 (2)" project-jdk-type="JavaSDK" />
+</project>

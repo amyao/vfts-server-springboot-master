@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="framework-assembly" />
+        <module name="framework.fund" />
+        <module name="framework-trade-service" />
+        <module name="framework-user-service" />
+        <module name="druid" />
+        <module name="framework-user-api" />
+        <module name="framework-user-rest" />
+        <module name="framework-trade-api" />
+        <module name="framework-druid" />
+        <module name="framework-trade-rest" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="druid" target="15" />
+      <module name="framework-assembly" target="15" />
+      <module name="framework-druid" target="15" />
+      <module name="framework-fund" target="15" />
+      <module name="framework-trade-all" target="1.8" />
+      <module name="framework-trade-api" target="1.8" />
+      <module name="framework-trade-rest" target="1.8" />
+      <module name="framework-trade-service" target="1.8" />
+      <module name="framework-user-all" target="1.8" />
+      <module name="framework-user-api" target="1.8" />
+      <module name="framework-user-rest" target="1.8" />
+      <module name="framework-user-service" target="1.8" />
+      <module name="framework.fund" target="15" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="druid" options="-parameters" />
+      <module name="framework-assembly" options="-parameters" />
+      <module name="framework-druid" options="-parameters" />
+      <module name="framework-fund" options="-parameters" />
+      <module name="framework-trade-api" options="-parameters" />
+      <module name="framework-trade-rest" options="-parameters" />
+      <module name="framework-trade-service" options="-parameters" />
+      <module name="framework-user-api" options="-parameters" />
+      <module name="framework-user-rest" options="-parameters" />
+      <module name="framework-user-service" options="-parameters" />
+      <module name="framework.fund" options="-parameters" />
+    </option>
+  </component>
+</project>

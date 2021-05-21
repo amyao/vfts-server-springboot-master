@@ -1,0 +1,161 @@
+<?xmxgl version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.vfts.trade.dao.IOrderMapper">
+    <resultMap
+            type="com.vfts.trade.entity.AccountEntity"
+            id="AccountMapping">
+        <result column="uuid" property="uuid" />
+        <result column="assets" property="assets"/>
+        <result column="accountBalance" property="accountBalance" />
+        <result column="holdingYield" property="holdingYield" />
+        <result column="yesterdayYield" property="yesterdayYield" />
+        <result column="totalYield" property="totalYield" />
+        <!--<collection property="currentHoldings"
+                    select="com.vfts.trade.dao.ITradeMapper.listCurrentHoldingsByUuid"
+                    column="">
+        </collection>
+        <collection property="selfListed"
+                    select="com.vfts.trade.dao.ITradeMapper.listSelfListedByUuid"
+                    column="">
+        </collection>-->
+    </resultMap>
+
+    <!--getAccountByUuid-->
+    <select id="getAccountByUuid" parameterType="String" resultMap="AccountMapping">
+        SELECT
+            A.uuid,
+            A.startingBalance,
+            A.assets,
+            A.accountBalance,
+            A.yesterdayYield,
+            A.holdingYield,
+            A.totalYield
+        FROM ACCOUNT_ENTITY A
+            /*left outer join selfListed s on A.uuid = s.uuid
+            left outer join HOLDING_ENTITY H on A.uuid = H.uuid
+            left outer join yieldHistory y on A.uuid = y.uuid*/
+        WHERE A.uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+
+    <!--returnAllRegisteredUuids-->
+    <select id="returnAllRegisteredUuids" resultType="String">
+        SELECT
+            uuid
+        FROM ACCOUNT_ENTITY
+    </select>
+
+    <!--createAccount-->
+    <insert id="createAccount" parameterType="com.vfts.trade.entity.AccountEntity">
+        INSERT INTO ACCOUNT_ENTITY
+        (uuid,accountBalance,startingBalance,yesterdayYield,holdingYield,totalYield)
+        values(#{uuid,jdbcType=VARCHAR},'10000','10000','0','0','0')
+    </insert>
+
+    <!--updateAccount-->
+    <update id="updateAccount" parameterType="com.vfts.trade.entity.AccountEntity">
+        UPDATE ACCOUNT_ENTITY set
+        `accountBalance` = #{accountBalance,jdbcType=FLOAT},
+        `yesterdayYield` = #{yesterdayYield,jdbcType=FLOAT},
+        `holdingYield` = #{holdingYield,jdbcType=FLOAT}
+        WHERE ACCOUNT_ENTITY.`uuid` = #{uuid,jdbcType=VARCHAR}
+    </update>
+
+    <!--listYieldHistory-->
+    <select id="listYieldHistory" resultType="java.lang.Double">
+        SELECT yieldRecord
+        FROM yieldHistory
+        WHERE uuid = #{uuid,jdbcType=VARCHAR} and fundId = #{fundId, jdbcType=VARCHAR}
+    </select>
+
+    <!--updateYieldHistory-->
+    <insert id="updateYieldHistory">
+        INSERT INTO yieldHistory
+        (uuid, fundId, yieldRecord, date)
+        VALUES (
+        #{uuid,jdbcType=VARCHAR},
+        #{fundId,jdbcType=VARCHAR},
+        #{newYesterdayYield, jdbcType=DOUBLE},
+        #{date, jdbcType=TIMESTAMP}
+        )
+    </insert>
+
+    <!--listOrderHistory-->
+    <select id="listOrderHistory" resultType="com.vfts.trade.entity.OrderEntity" parameterType="String">
+        select uuid,orderId,fundId,orderType,sellingShares,buyingAmount,orderDate,orderStatus
+        from ORDER_ENTITY
+        where uuid = #{uuid,jdbcType=VARCHAR}
+    </select>
+
+    <!--getOrderByOrderId-->
+    <select id="getOrderByOrderId" resultType="com.vfts.trade.entity.OrderEntity" parameterType="String">
+        select uuid,orderId,fundId,orderType,sellingShares,buyingAmount,orderDate,orderStatus
+        from ORDER_ENTITY
+        where orderId = #{orderId,jdbcType=VARCHAR}
+    </select>
+
+    <!--withdrawOrder-->
+    <update id="withdrawOrder" parameterType="String">
+        update ORDER_ENTITY
+        set orderStatus = 'withdrawn'
+        where orderId = #{orderId,jdbcType=VARCHAR}
+    </update>
+
+    <!--updateOrderStatus-->
+    <update id="updateOrderStatus" parameterType="String">
+        update ORDER_ENTITY
+        set orderStatus = #{newStatus,jdbcType=VARCHAR}
+        where orderId = #{orderId,jdbcType=VARCHAR}
+    </update>
+
+    <!--createOrder-->
+    <insert id="createOrder" parameterType="com.vfts.trade.entity.OrderEntity">
+        INSERT INTO ORDER_ENTITY
+        (uuid,orderId,fundId,orderType,sellingShares,buyingAmount,orderDate,orderStatus)
+        values(
+            #{uuid,jdbcType=VARCHAR},
+            #{orderId,jdbcType=VARCHAR},
+            #{fundId,jdbcType=VARCHAR},
+            #{orderType,jdbcType=INTEGER},
+            #{sellingShares,jdbcType=FLOAT},
+            #{buyingAmount,jdbcType=FLOAT},
+            #{orderDate,jdbcType=TIMESTAMP},
+            #{orderStatus,jdbcType=VARCHAR}
+        )
+    </insert>
+
+    <!--checkPayPwd-->
+    <select id="checkPayPwd" resultType="int">
+        select COUNT(*) AS Result FROM `USER_ENTITY` u
+        WHERE u.uuid = #{uuid,jdbcType=VARCHAR} AND u.payPwd = #{payPwd,jdbcType=VARCHAR}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
